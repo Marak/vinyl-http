@@ -1,0 +1,2 @@
+var vhttp = require("../index");
+vhttp.createServer().listen(8888);
