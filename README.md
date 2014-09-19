@@ -37,41 +37,57 @@ var server = require('vinyl-http').createServer();
 server.listen(8888);
 ```
 
-### Sending files
+### Push locale to remote
 
 ```javascript
-var map = require('map-stream');
-var fs = require('vinyl-fs');
-var vhttp = require('vinyl-http');
+var vhttp = require('../index');
+var vfs = require('vinyl-fs');
+var map = require("map-stream");
 
 var log = function(file, cb) {
-  console.log(file.path);
+  console.log(file)
   cb(null, file);
 };
 
-fs.src('test/fixtures/*.js') 
-.pipe(vhttp.dest('/upload', {
-  uri: "http://localhost:8888/"
-}))
-.pipe(map(log))
+vfs.src('test/fixtures/**') 
+.pipe(vhttp.dest('http://localhost:8888/upload'))
+.pipe(map(log));
+
 ```
 
-### Retrieving files
+### Pull remote to local
 
 ```javascript
-var map = require('map-stream');
-var fs = require('vinyl-fs');
+var vhttp = require('../index');
+var vfs = require('vinyl-fs');
+var map = require("map-stream");
 
 var log = function(file, cb) {
-  console.log(file.path);
+  console.log(file)
   cb(null, file);
 };
 
-vhttp.src('test/fixtures/*.js', {
-  uri: "http://localhost:8888/"
-})
-.pipe(map(log))
-.pipe(vfs.dest('./download'));
+vhttp.src('http://localhost:8888/test/fixtures/**')
+ .pipe(map(log))
+ .pipe(vfs.dest('./download'));
+
+```
+
+### Stream from remote to remote
+
+```javascript
+var vhttp = require('../index');
+var vfs = require('vinyl-fs');
+var map = require("map-stream");
+
+var log = function(file, cb) {
+  console.log(file)
+  cb(null, file);
+};
+
+vhttp.src('http://localhost:8888/test/fixtures/**')
+ .pipe(map(log))
+ .pipe(vhttp.dest('http://localhost:8888/upload2'));
 
 ```
 
@@ -80,7 +96,6 @@ vhttp.src('test/fixtures/*.js', {
 ### src(globs[, opt])
 
 - Takes a glob string or an array of glob strings as the first argument.
-  - uri - Specify the base uri
 - Returns a Readable/Writable stream.
 - On write the stream will simply pass items through.
 - This stream emits matching [vinyl] File objects
@@ -93,12 +108,9 @@ As of `v0.0.0`, not implemented yet.
 
 - Takes a folder path as the first argument.
 - Possible options for the second argument:
-  - uri - Specify the base uri
 - Returns a Readable/Writable stream.
 
 ## TODO
-
-
   - Add Tests
   - Investigate adding compression
   - Investigate implementing watch method
