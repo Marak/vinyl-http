@@ -24,7 +24,7 @@ This vinyl adapter allows you to either either post or receive streams of vinyl 
 
 This enables the ability to quickly push or retrieve streams of files to or from remote sources.
 
-An HTTP server component is require and shipped with this module, it can be used as a stand-alone server or as middleware for your existing http server.
+An HTTP server component is required and shipped with this module. It can be used as a stand-alone server or as middleware for your existing http server.
 
 Alternatives to using this module could be `gulp-sftp`, but that would necessitate an open ssh server while `vinyl-http` requires only an open http server.
 
@@ -37,7 +37,7 @@ var server = require('vinyl-http').createServer();
 server.listen(8888);
 ```
 
-### Push locale to remote
+### Push local to remote
 
 ```javascript
 var vhttp = require('../index');
