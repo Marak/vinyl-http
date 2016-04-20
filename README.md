@@ -100,9 +100,6 @@ vhttp.src('http://localhost:8888/test/fixtures/**')
 - On write the stream will simply pass items through.
 - This stream emits matching [vinyl] File objects
 
-### watch(globs[, opt, cb])
-
-As of `v0.0.0`, not implemented yet.
 
 ### dest(folder[, opt])
 
@@ -113,5 +110,4 @@ As of `v0.0.0`, not implemented yet.
 ## TODO
   - Add Tests
   - Investigate adding compression
-  - Investigate implementing watch method
   - Add protection for directory traversals on server
